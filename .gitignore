@@ -1,0 +1,11 @@
+.idea/
+build/
+dist/
+*.egg-info
+*.egg
+*.pyc
+.*.swp
+.DS_Store
+.coverage
+*.sublime-project
+*.sublime-workspace
