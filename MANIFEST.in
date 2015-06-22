@@ -1,1 +1,3 @@
+include LOCAL-VERSION
+graft docs
 graft requires

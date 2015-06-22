@@ -23,11 +23,19 @@ def read_requirements(section):
     return requirements
 
 
+version = bandoleers.__version__
+try:
+    with open('LOCAL-VERSION') as f:
+        local_version = f.readline().strip()
+        version = version + local_version
+except IOError:
+    pass
+
 setuptools.setup(
     name='bandoleers',
     description='AWeber development tool belt',
     long_description='\n' + codecs.open('README.rst').read().decode('utf-8'),
-    version=bandoleers.__version__,
+    version=version,
     packages=setuptools.find_packages(exclude=['tests', 'tests.*']),
     license='BSD',
     url='http://github-enterprise.colo.lair/Platform/bandoleers',
