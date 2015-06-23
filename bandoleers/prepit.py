@@ -1,7 +1,7 @@
 """ Prepit platform service configuration utility.
 
-The prepit utility looks for a set of configuratione files in a local 
-directory called platform, and attempts to apply those configuration 
+The prepit utility looks for a set of configuratione files in a local
+directory called platform, and attempts to apply those configuration
 settings to platform services that are discovered via environment
 variables. See the README file in the git repo for this utility
 for more details.
@@ -26,16 +26,16 @@ import requests
 
 LOGGER = logging.getLogger(__name__)
 
-def prep_redis(file):
+
+def prep_redis(file_):
     try:
-        LOGGER.info('Processing %s', file)
+        LOGGER.info('Processing %s', file_)
         redis = RedisConnection()
-        with open(file) as fh:
+        with open(file_) as fh:
             config = json.load(fh)
-            LOGGER.debug('%r', config)
             for command, entries in config.items():
                 for name, values in entries.items():
-                    redis.connection.execute_command(command, name, *values)
+                    redis.execute_command(command, name, *values)
     except Exception as e:
         LOGGER.exception('Failed to execute redis commands.')
         sys.exit(-1)
@@ -116,6 +116,7 @@ def prep_rabbit(file):
                 r = requests.request(
                     url=uri, method=action['method'],
                     auth=('guest', 'guest'), json=action['body'])
+                r.raise_for_status()
     except Exception as e:
         LOGGER.exception('Failed to configure rabbit.')
         sys.exit(-1)
@@ -130,7 +131,8 @@ def run():
         'cassandra': prep_cassandra,
         'consul': prep_consul,
         'postgres': prep_postgres,
-        'rabbitmq': prep_rabbit
+        'rabbitmq': prep_rabbit,
+        'redis': prep_redis,
     }
 
     dir = os.listdir('./platform')
