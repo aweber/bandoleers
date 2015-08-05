@@ -31,7 +31,8 @@ LOGGER = logging.getLogger(__name__)
 def connect_to(url, timeout):
     scheme, netloc, path, query, fragment = parse.urlsplit(url)
     if scheme in ('http', 'https'):
-        requests.get(url, timeout=timeout)
+        response = requests.get(url, timeout=timeout)
+        response.raise_for_status()
         return True
 
     elif scheme == 'cassandra':
