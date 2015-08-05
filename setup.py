@@ -46,6 +46,7 @@ setuptools.setup(
     entry_points={
         'console_scripts': [
             'prep-it=bandoleers.prepit:run',
+            'wait-for=bandoleers.waitfor:run',
         ],
     },
     classifiers=[
