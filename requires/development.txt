@@ -1,3 +1,4 @@
+-r installation.txt
 -r testing.txt
 setupext-gitversion>=1.1.0,<2
 Sphinx>=1.2.3,<2
