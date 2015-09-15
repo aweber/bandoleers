@@ -95,10 +95,7 @@ def prep_postgres(file):
             session.query('CREATE DATABASE {};'.format(db))
         with queries.Session(uri) as session:
             with open(file) as fh:
-                for schema_line in fh.read().split(';'):
-                    if schema_line.strip():
-                        LOGGER.debug('%s', schema_line)
-                        session.query(schema_line + ';')
+                session.query(fh.read())
     except Exception as e:
         LOGGER.exception('Failed to execute pgsql queries.')
         sys.exit(-1)
