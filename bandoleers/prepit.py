@@ -17,7 +17,7 @@ except ImportError:
     from urlparse import urlsplit
 
 from cassandra.cluster import Cluster
-from sprockets.clients.redis import RedisConnection
+from redis import StrictRedis
 import consulate
 import json
 import queries
@@ -30,7 +30,11 @@ LOGGER = logging.getLogger(__name__)
 def prep_redis(file_):
     try:
         LOGGER.info('Processing %s', file_)
-        redis = RedisConnection()
+        parts = urlsplit(os.environ.get('REDIS_URI', 'redis://localhost'))
+        redis = StrictRedis(host=parts.hostname,
+                            port=parts.port or 6379,
+                            db=parts.path[1:] or 'db0')
+
         with open(file_) as fh:
             config = json.load(fh)
             for command, entries in config.items():
