@@ -2,7 +2,7 @@
 
 Release History
 ===============
-`0.3.2`_ (2015-10-08)
+`0.3.3`_ (2015-10-08)
 ---------------------
 - The default Redis DB must be an integer
 
