@@ -33,7 +33,7 @@ def prep_redis(file_):
         parts = urlsplit(os.environ.get('REDIS_URI', 'redis://localhost'))
         redis = StrictRedis(host=parts.hostname,
                             port=parts.port or 6379,
-                            db=parts.path[1:] or 'db0')
+                            db=parts.path[1:] or 0)
 
         with open(file_) as fh:
             config = json.load(fh)
