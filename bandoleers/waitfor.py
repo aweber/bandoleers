@@ -12,10 +12,13 @@ import logging
 import socket
 import sys
 import time
+import warnings
 try:
     from urllib import parse
 except ImportError:
     import urlparse as parse
+
+warnings.simplefilter('ignore', UserWarning)
 
 from cassandra import cluster
 import docopt
@@ -24,7 +27,7 @@ import requests.exceptions
 
 
 logging.basicConfig(
-    level=logging.ERROR,
+    level=logging.INFO,
     format='%(relativeCreated)-10d %(levelname)-8s %(message)s')
 LOGGER = logging.getLogger(__name__)
 
@@ -94,7 +97,8 @@ def run():
     t0 = time.time()
     wait_forever = timeout is None
     timeout = 0.25 if wait_forever else float(timeout)
-    logger.debug('waiting for %s', 'forever' if wait_forever else timeout)
+    logger.debug('waiting on %s for %s', opts['<URL>'],
+                 'forever' if wait_forever else '{}s'.format(timeout))
     while wait_forever or (time.time() - t0) < timeout:
         try:
             if connect_to(opts['<URL>'], timeout=timeout):
