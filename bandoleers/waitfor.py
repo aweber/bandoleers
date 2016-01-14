@@ -3,7 +3,7 @@
 wait-for -- wait for a URL to become available
 
 Usage:
-    wait-for <URL> [--timeout=seconds] [-v |--verbose]
+    wait-for <URL> [-t|--timeout=seconds] [-v|--verbose]
     wait-for (-h | --help | --version)
 
 """
@@ -12,18 +12,22 @@ import logging
 import socket
 import sys
 import time
+import warnings
 try:
     from urllib import parse
 except ImportError:
     import urlparse as parse
 
+warnings.simplefilter('ignore', UserWarning)
+
 from cassandra import cluster
 import docopt
+import psycopg2
 import requests.exceptions
 
 
 logging.basicConfig(
-    level=logging.ERROR,
+    level=logging.INFO,
     format='%(relativeCreated)-10d %(levelname)-8s %(message)s')
 LOGGER = logging.getLogger(__name__)
 
@@ -46,6 +50,36 @@ def connect_to(url, timeout):
 
         return True
 
+    elif scheme == 'postgresql':
+        kwargs = {
+            'user': 'postgres',
+            'password': None,
+            'host': 'localhost',
+            'port': 5432,
+            'database': 'postgres',
+        }
+        user_n_pass, sep, host_n_port = netloc.partition('@')
+        if sep:
+            user, sep, password = user_n_pass.partition(':')
+            kwargs['user'] = user
+            if sep:
+                kwargs['password'] = password
+        else:
+            host_n_port = user_n_pass
+
+        host, sep, port = host_n_port.partition(':')
+        kwargs['host'] = host
+        if sep:
+            kwargs['port'] = int(port)
+
+        if path:
+            kwargs['database'] = path[1:]
+
+        LOGGER.debug('connecting to postgres with %r', kwargs)
+        conn = psycopg2.connect(**kwargs)
+        conn.close()
+        return True
+
     else:
         raise RuntimeError("I don't know what to do with {0}".format(scheme))
 
@@ -63,7 +97,8 @@ def run():
     t0 = time.time()
     wait_forever = timeout is None
     timeout = 0.25 if wait_forever else float(timeout)
-    logger.debug('waiting for %s', 'forever' if wait_forever else timeout)
+    logger.debug('waiting on %s for %s', opts['<URL>'],
+                 'forever' if wait_forever else '{}s'.format(timeout))
     while wait_forever or (time.time() - t0) < timeout:
         try:
             if connect_to(opts['<URL>'], timeout=timeout):
@@ -80,7 +115,7 @@ def run():
             sys.exit(-1)
 
         except Exception as error:
-            logger.debug('%s, sleeping for %f seconds', error, sleep_time)
+            logger.debug('%r, sleeping for %f seconds', error, sleep_time)
             time.sleep(sleep_time)
 
     logger.error('wait timed out after %f seconds', time.time() - t0)
