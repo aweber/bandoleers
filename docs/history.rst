@@ -2,6 +2,11 @@
 
 Release History
 ===============
+
+`0.3.4`_ (2016-01-13)
+---------------------
+- Add postgres support in ``wait-for``
+
 `0.3.3`_ (2015-10-08)
 ---------------------
 - The default Redis DB must be an integer
@@ -28,3 +33,5 @@ Release History
 .. _`0.2.0`: https://github.aweber.io/Platform/bandoleers/compare/0.1.0...0.2.0
 .. _`0.2.1`: https://github.aweber.io/Platform/bandoleers/compare/0.2.0...0.2.1
 .. _`0.3.0`: https://github.aweber.io/Platform/bandoleers/compare/0.2.1...0.3.0
+.. _`0.3.3`: https://github.aweber.io/Platform/bandoleers/compare/0.3.0...0.3.3
+.. _`0.3.4`: https://github.aweber.io/Platform/bandoleers/compare/0.3.3...0.3.4

@@ -3,7 +3,7 @@
 wait-for -- wait for a URL to become available
 
 Usage:
-    wait-for <URL> [--timeout=seconds] [-v |--verbose]
+    wait-for <URL> [-t|--timeout=seconds] [-v|--verbose]
     wait-for (-h | --help | --version)
 
 """
@@ -19,6 +19,7 @@ except ImportError:
 
 from cassandra import cluster
 import docopt
+import psycopg2
 import requests.exceptions
 
 
@@ -44,6 +45,36 @@ def connect_to(url, timeout):
         asyncore.close_all()
         asyncore.loop()
 
+        return True
+
+    elif scheme == 'postgresql':
+        kwargs = {
+            'user': 'postgres',
+            'password': None,
+            'host': 'localhost',
+            'port': 5432,
+            'database': 'postgres',
+        }
+        user_n_pass, sep, host_n_port = netloc.partition('@')
+        if sep:
+            user, sep, password = user_n_pass.partition(':')
+            kwargs['user'] = user
+            if sep:
+                kwargs['password'] = password
+        else:
+            host_n_port = user_n_pass
+
+        host, sep, port = host_n_port.partition(':')
+        kwargs['host'] = host
+        if sep:
+            kwargs['port'] = int(port)
+
+        if path:
+            kwargs['database'] = path[1:]
+
+        LOGGER.debug('connecting to postgres with %r', kwargs)
+        conn = psycopg2.connect(**kwargs)
+        conn.close()
         return True
 
     else:
@@ -80,7 +111,7 @@ def run():
             sys.exit(-1)
 
         except Exception as error:
-            logger.debug('%s, sleeping for %f seconds', error, sleep_time)
+            logger.debug('%r, sleeping for %f seconds', error, sleep_time)
             time.sleep(sleep_time)
 
     logger.error('wait timed out after %f seconds', time.time() - t0)
