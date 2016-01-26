@@ -40,7 +40,7 @@ def prep_redis(file_):
             for command, entries in config.items():
                 for name, values in entries.items():
                     redis.execute_command(command, name, *values)
-    except Exception as e:
+    except Exception:
         LOGGER.exception('Failed to execute redis commands.')
         sys.exit(-1)
 
@@ -51,7 +51,6 @@ def prep_cassandra(file):
         uri = os.environ.get('CASSANDRA_URI', 'cassandra://localhost')
         parts = urlsplit(uri)
         _, _, ips = socket.gethostbyname_ex(parts.hostname)
-        port = parts.port or 9042
         config = dict(parse_qsl(parts.query))
         config['contact_points'] = ips
         config['port'] = parts.port or 9042
@@ -68,7 +67,7 @@ def prep_cassandra(file):
                     LOGGER.debug('%s', schema_line)
                     session.execute(schema_line + ';')
         session.shutdown()
-    except Exception as e:
+    except Exception:
         LOGGER.exception('Failed to execute cassandra queries.')
         sys.exit(-1)
 
@@ -83,7 +82,7 @@ def prep_consul(file):
             LOGGER.debug('%r', config)
             for k, v in config.items():
                 consul.kv[k] = v
-    except Exception as e:
+    except Exception:
         LOGGER.exception('Failed to load consul data.')
         sys.exit(-1)
 
@@ -107,7 +106,7 @@ def prep_postgres(file):
         with queries.Session(uri) as session:
             with open(file) as fh:
                 session.query(fh.read())
-    except Exception as e:
+    except Exception:
         LOGGER.exception('Failed to execute pgsql queries.')
         sys.exit(-1)
 
@@ -125,7 +124,7 @@ def prep_rabbit(file):
                     url=uri, method=action['method'],
                     auth=('guest', 'guest'), json=action['body'])
                 r.raise_for_status()
-    except Exception as e:
+    except Exception:
         LOGGER.exception('Failed to configure rabbit.')
         sys.exit(-1)
 
