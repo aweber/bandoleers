@@ -12,9 +12,9 @@ import os
 import socket
 import sys
 try:
-    from urllib.parse import urlsplit
+    from urllib.parse import parse_qsl, urlsplit
 except ImportError:
-    from urlparse import urlsplit
+    from urlparse import parse_qsl, urlsplit
 
 from cassandra.cluster import Cluster
 from redis import StrictRedis
@@ -52,7 +52,14 @@ def prep_cassandra(file):
         parts = urlsplit(uri)
         _, _, ips = socket.gethostbyname_ex(parts.hostname)
         port = parts.port or 9042
-        config = {'contact_points': ips, 'port': port}
+        config = dict(parse_qsl(parts.query))
+        config['contact_points'] = ips
+        config['port'] = parts.port or 9042
+        for key in ('protocol_version', 'executor_threads',
+                    'max_schema_agreement_wait', 'idle_heartbeat_interval',
+                    'schema_refresh_window', 'topology_event_refresh_window'):
+            if key in config:
+                config[key] = int(config[key])
         cluster = Cluster(**config)
         session = cluster.connect()
         with open(file) as fh:

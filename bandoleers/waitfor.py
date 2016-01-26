@@ -42,8 +42,17 @@ def connect_to(url, timeout):
     elif scheme == 'cassandra':
         host, _, port = netloc.partition(':')
         _, _, ip_addrs = socket.gethostbyname_ex(host)
-        conn = cluster.Cluster(contact_points=ip_addrs, port=int(port) or 9042,
-                               control_connection_timeout=timeout)
+        options = dict(parse.parse_qsl(query))
+        options['contact_points'] = ip_addrs
+        options['port'] = int(port) or 9042
+        options['control_connection_timeout'] = timeout
+        for key in ('protocol_version', 'executor_threads',
+                    'max_schema_agreement_wait', 'idle_heartbeat_interval',
+                    'schema_refresh_window', 'topology_event_refresh_window'):
+            if key in options:
+                options[key] = int(options[key])
+
+        conn = cluster.Cluster(**options)
         conn.connect()
         asyncore.close_all()
         asyncore.loop()
