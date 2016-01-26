@@ -10,4 +10,3 @@ dist/
 .coverage
 *.sublime-project
 *.sublime-workspace
-LOCAL-VERSION
