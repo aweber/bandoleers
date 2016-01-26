@@ -3,6 +3,11 @@
 Release History
 ===============
 
+`0.3.5`_ (2016-01-26)
+---------------------
+- Query parameters are now passed from cassandra:// URLs into the cluster
+  instance.
+
 `0.3.4`_ (2016-01-14)
 ---------------------
 - Add postgres support in ``wait-for``
@@ -35,3 +40,4 @@ Release History
 .. _`0.3.0`: https://github.aweber.io/Platform/bandoleers/compare/0.2.1...0.3.0
 .. _`0.3.3`: https://github.aweber.io/Platform/bandoleers/compare/0.3.0...0.3.3
 .. _`0.3.4`: https://github.aweber.io/Platform/bandoleers/compare/0.3.3...0.3.4
+.. _`0.3.5`: https://github.aweber.io/Platform/bandoleers/compare/0.3.4...0.3.5
