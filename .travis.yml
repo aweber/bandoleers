@@ -1,6 +1,10 @@
 language: python
 python:
 - 3.4
+install:
+- pip install -e .
+- pip install -r requires/testing.txt
+script: flake8 bandoleers
 sudo: false
 deploy:
   provider: pypi
