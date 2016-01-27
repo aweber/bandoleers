@@ -19,6 +19,6 @@ Quickstart Development Guide
 
 .. code:: bash
 
-    $ virtualenv
+    $ python3.4 -mvenv env
     $ . ./env/bin/activate
-    (env) $ pip install -qr requires/development.txt -i https://pypi.python.org/simple
+    (env) $ pip install -qr requires/development.txt
