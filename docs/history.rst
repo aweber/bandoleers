@@ -3,8 +3,8 @@
 Release History
 ===============
 
-`Next Release`_
----------------
+`1.0.0`_ (2016-01-27)
+---------------------
 - Infect the world!
 
 `0.3.5`_ (2016-01-26)
@@ -37,7 +37,8 @@ Release History
 - Initial release of the PrepIt package
 - Import @briank's work on prepit.
 
-.. _Next Release: https://github.com/aweber/bandoleers/compare/0.3.5...HEAD
+.. _Next Release: https://github.com/aweber/bandoleers/compare/1.0.0...HEAD
+.. _1.0.0: https://github.com/aweber/bandoleers/compare/0.3.5...1.0.0
 .. _0.3.5: https://github.com/aweber/bandoleers/compare/0.3.4...0.3.5
 .. _0.3.4: https://github.com/aweber/bandoleers/compare/0.3.3...0.3.4
 .. _0.3.3: https://github.com/aweber/bandoleers/compare/0.3.0...0.3.3
