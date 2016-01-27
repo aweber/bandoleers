@@ -7,35 +7,41 @@ Release History
 ---------------
 - Infect the world!
 
-0.3.5 (2016-01-26)
-------------------
+`0.3.5`_ (2016-01-26)
+---------------------
 - Query parameters are now passed from cassandra:// URLs into the cluster
   instance.
 
-0.3.4 (2016-01-14)
-------------------
+`0.3.4`_ (2016-01-14)
+---------------------
 - Add postgres support in ``wait-for``
 
-0.3.3 (2015-10-08)
-------------------
+`0.3.3`_ (2015-10-08)
+---------------------
 - The default Redis DB must be an integer
 
-0.3.0 (2015-09-15)
-------------------
+`0.3.0`_ (2015-09-15)
+---------------------
 - Read and execute the entire SQL file when bootstrapping Postgresql
 
-0.2.1 (2015-09-14)
-------------------
+`0.2.1`_ (2015-09-14)
+---------------------
 - Remove ``codecs`` from ``setup.py`` for Python 3 compatibility.
 
-0.2.0 (2015-08-05)
-------------------
+`0.2.0`_ (2015-08-05)
+---------------------
 - Added the ``wait-for`` utility
 
-0.1.0 (2015-06-23)
-------------------
+`0.1.0`_ (2015-06-23)
+---------------------
 - Initial release of the PrepIt package
 - Import @briank's work on prepit.
 
-
-.. _Next Release: https://github.com/aweber/bandoleers/compare/0.0.0...HEAD
+.. _Next Release: https://github.com/aweber/bandoleers/compare/0.3.5...HEAD
+.. _0.3.5: https://github.com/aweber/bandoleers/compare/0.3.4...0.3.5
+.. _0.3.4: https://github.com/aweber/bandoleers/compare/0.3.3...0.3.4
+.. _0.3.3: https://github.com/aweber/bandoleers/compare/0.3.0...0.3.3
+.. _0.3.0: https://github.com/aweber/bandoleers/compare/0.2.1...0.3.0
+.. _0.2.1: https://github.com/aweber/bandoleers/compare/0.2.0...0.2.1
+.. _0.2.0: https://github.com/aweber/bandoleers/compare/0.1.0...0.2.0
+.. _0.1.0: https://github.com/aweber/bandoleers/compare/0.0.0...0.1.0
