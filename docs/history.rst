@@ -3,6 +3,10 @@
 Release History
 ===============
 
+`Next Release`_
+---------------
+- Infect the world!
+
 `0.3.5`_ (2016-01-26)
 ---------------------
 - Query parameters are now passed from cassandra:// URLs into the cluster
@@ -33,11 +37,11 @@ Release History
 - Initial release of the PrepIt package
 - Import @briank's work on prepit.
 
-
-.. _`0.1.0`: https://github.aweber.io/Platform/bandoleers/compare/0.0.0...0.1.0
-.. _`0.2.0`: https://github.aweber.io/Platform/bandoleers/compare/0.1.0...0.2.0
-.. _`0.2.1`: https://github.aweber.io/Platform/bandoleers/compare/0.2.0...0.2.1
-.. _`0.3.0`: https://github.aweber.io/Platform/bandoleers/compare/0.2.1...0.3.0
-.. _`0.3.3`: https://github.aweber.io/Platform/bandoleers/compare/0.3.0...0.3.3
-.. _`0.3.4`: https://github.aweber.io/Platform/bandoleers/compare/0.3.3...0.3.4
-.. _`0.3.5`: https://github.aweber.io/Platform/bandoleers/compare/0.3.4...0.3.5
+.. _Next Release: https://github.com/aweber/bandoleers/compare/0.3.5...HEAD
+.. _0.3.5: https://github.com/aweber/bandoleers/compare/0.3.4...0.3.5
+.. _0.3.4: https://github.com/aweber/bandoleers/compare/0.3.3...0.3.4
+.. _0.3.3: https://github.com/aweber/bandoleers/compare/0.3.0...0.3.3
+.. _0.3.0: https://github.com/aweber/bandoleers/compare/0.2.1...0.3.0
+.. _0.2.1: https://github.com/aweber/bandoleers/compare/0.2.0...0.2.1
+.. _0.2.0: https://github.com/aweber/bandoleers/compare/0.1.0...0.2.0
+.. _0.1.0: https://github.com/aweber/bandoleers/compare/0.0.0...0.1.0
