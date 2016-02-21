@@ -3,6 +3,10 @@
 Release History
 ===============
 
+`Next Release`_
+---------------
+- Make the platform directory name an option for ``prep-it``
+
 `1.0.0`_ (2016-01-27)
 ---------------------
 - Infect the world!
