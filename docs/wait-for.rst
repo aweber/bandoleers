@@ -7,7 +7,8 @@ successful response.
 
 .. code::
 
-   wait-for [-t|--timeout seconds] [-v|--verbose] URL
+   wait-for ([-q|--quiet] | [-v|--verbose]) [-s|--sleep SECONDS]
+            [-t|--timeout SECONDS] URL
    wait-for (-h | --help | --version)
 
 .. option:: URL
@@ -24,6 +25,10 @@ successful response.
    |                     | URL succeeds.                                |
    +---------------------+----------------------------------------------+
 
+.. option:: -s <seconds>, --sleep <seconds>
+
+   Sleep for the specified number of seconds between hitting the URL.
+
 .. option:: -t <seconds>, --timeout <seconds>
 
    Timeout and exit unsuccessfully if a successful response is not received
@@ -33,6 +38,10 @@ successful response.
 
    Write diagnostics to standard output.  Without this flag, the utility
    is quite silent.
+
+.. option:: -q, --quiet
+
+   Only show output when an error occurs.
 
 .. option:: -h, --help
 
