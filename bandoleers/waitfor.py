@@ -30,7 +30,6 @@ def connect_to(url, timeout):
     if scheme in ('http', 'https'):
         response = requests.get(url, timeout=timeout)
         response.raise_for_status()
-        return True
 
     elif scheme == 'cassandra':
         host, _, port = netloc.partition(':')
@@ -49,8 +48,6 @@ def connect_to(url, timeout):
         conn.connect()
         asyncore.close_all()
         asyncore.loop()
-
-        return True
 
     elif scheme == 'postgresql':
         kwargs = {
@@ -80,7 +77,6 @@ def connect_to(url, timeout):
         LOGGER.debug('connecting to postgres with %r', kwargs)
         conn = psycopg2.connect(**kwargs)
         conn.close()
-        return True
 
     elif scheme == 'tcp':
         host, sep, port = netloc.partition(':')
@@ -98,7 +94,6 @@ def connect_to(url, timeout):
         sock.settimeout(timeout)
         sock.connect((ip_addr, port))
         sock.close()
-        return True
 
     else:
         raise RuntimeError("I don't know what to do with {0}".format(scheme))
@@ -128,10 +123,10 @@ def run():
                  'forever' if wait_forever else opts.timeout)
     while wait_forever or (time.time() - t0) < opts.timeout:
         try:
-            if connect_to(opts.URL, timeout=timeout):
-                logger.debug('connection to %s succeeded after %f seconds',
-                             opts.URL, time.time() - t0)
-                sys.exit(0)
+            connect_to(opts.URL, timeout=timeout)
+            logger.debug('connection to %s succeeded after %f seconds',
+                         opts.URL, time.time() - t0)
+            sys.exit(0)
 
         except RuntimeError:
             logger.exception('internal failure')
