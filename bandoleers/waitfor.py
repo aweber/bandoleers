@@ -82,6 +82,24 @@ def connect_to(url, timeout):
         conn.close()
         return True
 
+    elif scheme == 'tcp':
+        host, sep, port = netloc.partition(':')
+        if not sep:
+            raise RuntimeError('tcp:// requires a port')
+        try:
+            port = int(port)
+        except:
+            raise RuntimeError('failed to extract port from ' + netloc)
+
+        ip_addr = socket.gethostbyname(host)
+        LOGGER.debug('opening TCP connection to %r:%r', ip_addr, port)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM,
+                             socket.IPPROTO_TCP)
+        sock.settimeout(timeout)
+        sock.connect((ip_addr, port))
+        sock.close()
+        return True
+
     else:
         raise RuntimeError("I don't know what to do with {0}".format(scheme))
 
@@ -125,7 +143,11 @@ def run():
 
         except Exception as error:
             logger.debug('%r, sleeping for %f seconds', error, opts.sleep)
-            time.sleep(opts.sleep)
+            try:
+                time.sleep(opts.sleep)
+            except KeyboardInterrupt:
+                logger.info('killed')
+                sys.exit(-1)
 
     logger.error('wait timed out after %f seconds', time.time() - t0)
     sys.exit(-1)
