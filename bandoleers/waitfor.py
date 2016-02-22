@@ -121,28 +121,32 @@ def run():
     timeout = max(opts.sleep, opts.timeout or opts.sleep)
     logger.debug('waiting on %s for %s', opts.URL,
                  'forever' if wait_forever else opts.timeout)
-    while wait_forever or (time.time() - t0) < opts.timeout:
-        try:
-            connect_to(opts.URL, timeout=timeout)
-            logger.debug('connection to %s succeeded after %f seconds',
-                         opts.URL, time.time() - t0)
-            sys.exit(0)
 
-        except RuntimeError:
-            logger.exception('internal failure')
-            sys.exit(70)
+    while True:
+        try:
+            try:
+                connect_to(opts.URL, timeout=timeout)
+                logger.debug('connection to %s succeeded after %f seconds',
+                             opts.URL, time.time() - t0)
+                sys.exit(0)
+
+            except RuntimeError:
+                logger.exception('internal failure')
+                sys.exit(70)
+
+            except KeyboardInterrupt:
+                raise
+
+            except Exception as error:
+                if not wait_forever and (time.time() - t0) >= opts.timeout:
+                    break
+
+                logger.debug('%r, sleeping for %f seconds', error, opts.sleep)
+                time.sleep(opts.sleep)
 
         except KeyboardInterrupt:
             logger.info('killed')
             sys.exit(-1)
-
-        except Exception as error:
-            logger.debug('%r, sleeping for %f seconds', error, opts.sleep)
-            try:
-                time.sleep(opts.sleep)
-            except KeyboardInterrupt:
-                logger.info('killed')
-                sys.exit(-1)
 
     logger.error('wait timed out after %f seconds', time.time() - t0)
     sys.exit(-1)
