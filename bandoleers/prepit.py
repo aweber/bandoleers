@@ -1,4 +1,5 @@
-""" Prepit platform service configuration utility.
+"""
+Platform service configuration utility.
 
 The prepit utility looks for a set of configuratione files in a local
 directory called platform, and attempts to apply those configuration
@@ -22,6 +23,8 @@ import consulate
 import json
 import queries
 import requests
+
+from bandoleers import args
 
 
 LOGGER = logging.getLogger(__name__)
@@ -131,8 +134,13 @@ def prep_rabbit(file):
 
 def run():
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.INFO,
         format='%(levelname)1.1s - %(name)s: %(message)s')
+    parser = args.ArgumentParser()
+    parser.add_argument('-d', '--dir', metavar='DIRECTORY',
+                        default='platform', dest='directory',
+                        help='read files from DIRECTORY')
+    opts = parser.parse_args()
 
     resources = {
         'cassandra': prep_cassandra,
@@ -142,13 +150,13 @@ def run():
         'redis': prep_redis,
     }
 
-    dir = os.listdir('./platform')
+    top_level = os.listdir(opts.directory)
     for resource in resources:
-        if resource in dir:
-            path = '/'.join(['./platform', resource])
+        if resource in top_level:
+            path = '/'.join([opts.directory, resource])
             files = os.listdir(path)
-            for file in files:
-                resources[resource]('/'.join([path, file]))
+            for data_file in files:
+                resources[resource]('/'.join([path, data_file]))
     LOGGER.info('Finished processing successfully.')
     sys.exit(0)
 

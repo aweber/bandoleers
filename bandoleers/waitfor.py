@@ -1,10 +1,5 @@
 """
-
-wait-for -- wait for a URL to become available
-
-Usage:
-    wait-for <URL> [-t|--timeout=seconds] [-v|--verbose]
-    wait-for (-h | --help | --version)
+Wait for a URL to become available.
 
 """
 import asyncore
@@ -21,14 +16,12 @@ except ImportError:
 warnings.simplefilter('ignore', UserWarning)
 
 from cassandra import cluster
-import docopt
 import psycopg2
 import requests.exceptions
 
+from bandoleers import args
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(relativeCreated)-10d %(levelname)-8s %(message)s')
+
 LOGGER = logging.getLogger(__name__)
 
 
@@ -95,24 +88,31 @@ def connect_to(url, timeout):
 
 def run():
     logger = logging.getLogger(__name__)
-    opts = docopt.docopt(__doc__)
-    timeout = opts.get('--timeout', None)
-    sleep_time = 0.25
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(relativeCreated)-10.3f %(levelname)-8s %(message)s')
 
-    if opts.get('--verbose', False) or opts.get('-v', False):
-        logging.getLogger().setLevel(logging.DEBUG)
+    parser = args.ArgumentParser()
+    parser.add_argument('-s', '--sleep', type=float, metavar='SECONDS',
+                        default=0.25, help='time to sleep after a failure')
+    parser.add_argument('-t', '--timeout', type=float, metavar='SECONDS',
+                        default=None,
+                        help=('total number of seconds to run for. '
+                              'Default is to run forever'))
+    parser.add_argument('URL')
+    opts = parser.parse_args()
     logging.getLogger('cassandra').setLevel(logging.CRITICAL)
 
     t0 = time.time()
-    wait_forever = timeout is None
-    timeout = 0.25 if wait_forever else float(timeout)
-    logger.debug('waiting on %s for %s', opts['<URL>'],
-                 'forever' if wait_forever else '{}s'.format(timeout))
-    while wait_forever or (time.time() - t0) < timeout:
+    wait_forever = opts.timeout is None
+    timeout = max(opts.sleep, opts.timeout or opts.sleep)
+    logger.debug('waiting on %s for %s', opts.URL,
+                 'forever' if wait_forever else opts.timeout)
+    while wait_forever or (time.time() - t0) < opts.timeout:
         try:
-            if connect_to(opts['<URL>'], timeout=timeout):
+            if connect_to(opts.URL, timeout=timeout):
                 logger.debug('connection to %s succeeded after %f seconds',
-                             opts['<URL>'], time.time() - t0)
+                             opts.URL, time.time() - t0)
                 sys.exit(0)
 
         except RuntimeError:
@@ -124,8 +124,12 @@ def run():
             sys.exit(-1)
 
         except Exception as error:
-            logger.debug('%r, sleeping for %f seconds', error, sleep_time)
-            time.sleep(sleep_time)
+            logger.debug('%r, sleeping for %f seconds', error, opts.sleep)
+            time.sleep(opts.sleep)
 
     logger.error('wait timed out after %f seconds', time.time() - t0)
     sys.exit(-1)
+
+
+if __name__ == '__main__':
+    run()

@@ -6,6 +6,33 @@ The :program:`prep-it` utility scans the *platform* sub-directory and
 loads data files into various backends.  The following sections describe
 each directory name that is supported and its expected content.
 
+.. code::
+
+   prep-it ([-q|--quiet] | [-v|--verbose]) [-d|--dir DIRECTORY]
+   prep-it (-h | --help | --version)
+
+.. option:: DIRECTORY
+
+   Specifies the directory to process.  If unspecified, the "platform"
+   directory is processed.
+
+.. option:: -v, --verbose
+
+   Write diagnostics to standard output.  Without this flag, informational
+   messages will be displayed.
+
+.. option:: -q, --quiet
+
+   Only show output when an error occurs.
+
+.. option:: -h, --help
+
+   Display a usage synopsis and exit with a failure status.
+
+.. option:: --version
+
+   Display the package version and exit with a failure status.
+
 cassandra
 ---------
 Text files containing queries that are executed using a
