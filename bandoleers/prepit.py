@@ -102,11 +102,10 @@ def prep_postgres(file):
             base = os.environ.get('PGSQL',
                                   'postgresql://postgres@localhost:5432')
             uri = os.path.join(base, db)
-
-        with queries.Session(os.path.join(base, 'postgres')) as session:
-            LOGGER.debug('Creating database')
-            session.query('DROP DATABASE IF EXISTS {};'.format(db))
-            session.query('CREATE DATABASE {};'.format(db))
+            with queries.Session(os.path.join(base, 'postgres')) as session:
+                LOGGER.debug('Creating database')
+                session.query('DROP DATABASE IF EXISTS {};'.format(db))
+                session.query('CREATE DATABASE {};'.format(db))
 
         with queries.Session(uri) as session:
             with open(file) as fh:
