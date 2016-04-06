@@ -33,11 +33,15 @@ Environment Variables
    Identifies the redis server, port, and database to connect to.  This
    value follows the IANA-registered `redis url`_ format.
 
-
 .. envvar:: PGSQL
 
    Identifies the PostgreSQL server to connect to using the standard
    `postgresql:// scheme`_
+
+.. envvar:: PGSQL_...
+
+   Identifies the PostgreSQL connection to use for the specific database
+   named by the suffix using the standard `postgresql:// scheme`_
 
 
 .. _postgresql:// scheme: http://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING

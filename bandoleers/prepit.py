@@ -9,7 +9,7 @@ for more details.
 
 """
 import logging
-import os
+import os.path
 import socket
 import sys
 try:
@@ -93,7 +93,7 @@ def prep_consul(file):
 def prep_postgres(file):
     try:
         LOGGER.info('Processing %s', file)
-        db = file.split('/')[-1][:-4]
+        db = os.path.splitext(os.path.basename(file))[0]
         uri = os.environ.get('PGSQL_{}'.format(db.upper()))
         if uri is not None:
             chop = len(db) + 1
@@ -101,11 +101,12 @@ def prep_postgres(file):
         else:
             base = os.environ.get('PGSQL',
                                   'postgresql://postgres@localhost:5432')
-            uri = base + '/' + db
-        with queries.Session(base + '/postgres') as session:
-            LOGGER.debug('Creating database')
-            session.query('DROP DATABASE IF EXISTS {};'.format(db))
-            session.query('CREATE DATABASE {};'.format(db))
+            uri = os.path.join(base, db)
+            with queries.Session(os.path.join(base, 'postgres')) as session:
+                LOGGER.debug('Creating database')
+                session.query('DROP DATABASE IF EXISTS {};'.format(db))
+                session.query('CREATE DATABASE {};'.format(db))
+
         with queries.Session(uri) as session:
             with open(file) as fh:
                 session.query(fh.read())

@@ -102,4 +102,10 @@ database name is based on the file name minus the assumed ``.sql``
 suffix.  The database will be dropped if it exists and then created
 anew before running the SQL commands from the file.
 
+The database connection for a specific database can also be specified
+by setting the :envvar:`PGSQL_$DBNAME` environment variable where
+``$DBNAME`` is the name of the database in upper-case.  If a database
+specific environment variable exists, **then the database will not be
+created automatically.**
+
 .. _queries: https://github.com/gmr/queries
