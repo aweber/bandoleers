@@ -3,8 +3,8 @@
 Release History
 ===============
 
-`Next Release`_
----------------
+`1.1.0`_ (2016-04-13)
+---------------------
 - Make the platform directory name an option for ``prep-it``
 - Add ``--sleep`` parameter to ``wait-for``
 - Normalize parameter processing between commands
@@ -46,7 +46,8 @@ Release History
 - Initial release of the PrepIt package
 - Import @briank's work on prepit.
 
-.. _Next Release: https://github.com/aweber/bandoleers/compare/1.0.0...HEAD
+.. _Next Release: https://github.com/aweber/bandoleers/compare/1.1.0...HEAD
+.. _1.1.0: https://github.com/aweber/bandoleers/compare/1.0.0...1.1.0
 .. _1.0.0: https://github.com/aweber/bandoleers/compare/0.3.5...1.0.0
 .. _0.3.5: https://github.com/aweber/bandoleers/compare/0.3.4...0.3.5
 .. _0.3.4: https://github.com/aweber/bandoleers/compare/0.3.3...0.3.4
