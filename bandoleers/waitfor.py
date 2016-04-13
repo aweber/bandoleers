@@ -30,7 +30,6 @@ def connect_to(url, timeout):
     if scheme in ('http', 'https'):
         response = requests.get(url, timeout=timeout)
         response.raise_for_status()
-        return True
 
     elif scheme == 'cassandra':
         host, _, port = netloc.partition(':')
@@ -49,8 +48,6 @@ def connect_to(url, timeout):
         conn.connect()
         asyncore.close_all()
         asyncore.loop()
-
-        return True
 
     elif scheme == 'postgresql':
         kwargs = {
@@ -80,7 +77,23 @@ def connect_to(url, timeout):
         LOGGER.debug('connecting to postgres with %r', kwargs)
         conn = psycopg2.connect(**kwargs)
         conn.close()
-        return True
+
+    elif scheme == 'tcp':
+        host, sep, port = netloc.partition(':')
+        if not sep:
+            raise RuntimeError('tcp:// requires a port')
+        try:
+            port = int(port)
+        except:
+            raise RuntimeError('failed to extract port from ' + netloc)
+
+        ip_addr = socket.gethostbyname(host)
+        LOGGER.debug('opening TCP connection to %r:%r', ip_addr, port)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM,
+                             socket.IPPROTO_TCP)
+        sock.settimeout(timeout)
+        sock.connect((ip_addr, port))
+        sock.close()
 
     else:
         raise RuntimeError("I don't know what to do with {0}".format(scheme))
@@ -108,12 +121,13 @@ def run():
     timeout = max(opts.sleep, opts.timeout or opts.sleep)
     logger.debug('waiting on %s for %s', opts.URL,
                  'forever' if wait_forever else opts.timeout)
-    while wait_forever or (time.time() - t0) < opts.timeout:
+
+    while True:
         try:
-            if connect_to(opts.URL, timeout=timeout):
-                logger.debug('connection to %s succeeded after %f seconds',
-                             opts.URL, time.time() - t0)
-                sys.exit(0)
+            connect_to(opts.URL, timeout=timeout)
+            logger.debug('connection to %s succeeded after %f seconds',
+                         opts.URL, time.time() - t0)
+            sys.exit(0)
 
         except RuntimeError:
             logger.exception('internal failure')
@@ -124,6 +138,9 @@ def run():
             sys.exit(-1)
 
         except Exception as error:
+            if not wait_forever and (time.time() - t0) >= opts.timeout:
+                break
+
             logger.debug('%r, sleeping for %f seconds', error, opts.sleep)
             time.sleep(opts.sleep)
 

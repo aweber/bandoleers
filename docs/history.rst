@@ -10,6 +10,7 @@ Release History
 - Normalize parameter processing between commands
 - Do not create a postgres database if the database-specific
   environment variable exists.
+- Add support for ``tcp://`` in ``wait-for``
 
 `1.0.0`_ (2016-01-27)
 ---------------------

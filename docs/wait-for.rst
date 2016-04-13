@@ -24,6 +24,8 @@ successful response.
    | ``postgresql``      | Fail unless connecting `psycopg2`_ to the    |
    |                     | URL succeeds.                                |
    +---------------------+----------------------------------------------+
+   | ``tcp``             | Fail unless connecting a TCP socket succeeds.|
+   +---------------------+----------------------------------------------+
 
 .. option:: -s <seconds>, --sleep <seconds>
 
