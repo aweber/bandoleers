@@ -3,6 +3,10 @@
 Release History
 ===============
 
+`1.1.1`_ (2016-08-17)
+---------------------
+- Support Python 2.6
+
 `1.1.0`_ (2016-04-13)
 ---------------------
 - Make the platform directory name an option for ``prep-it``
@@ -46,7 +50,8 @@ Release History
 - Initial release of the PrepIt package
 - Import @briank's work on prepit.
 
-.. _Next Release: https://github.com/aweber/bandoleers/compare/1.1.0...HEAD
+.. _Next Release: https://github.com/aweber/bandoleers/compare/1.1.1...HEAD
+.. _1.1.1: https://github.com/aweber/bandoleers/compare/1.1.0...1.1.1
 .. _1.1.0: https://github.com/aweber/bandoleers/compare/1.0.0...1.1.0
 .. _1.0.0: https://github.com/aweber/bandoleers/compare/0.3.5...1.0.0
 .. _0.3.5: https://github.com/aweber/bandoleers/compare/0.3.4...0.3.5
