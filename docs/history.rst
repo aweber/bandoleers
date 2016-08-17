@@ -3,6 +3,10 @@
 Release History
 ===============
 
+`Next Release`_
+---------------
+- Support Python 2.6
+
 `1.1.0`_ (2016-04-13)
 ---------------------
 - Make the platform directory name an option for ``prep-it``

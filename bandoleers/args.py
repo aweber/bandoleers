@@ -30,8 +30,9 @@ class ArgumentParser(argparse.ArgumentParser):
         output_control.add_argument('-v', '--verbose',
                                     action='store_true', default=False,
                                     help='show diagnostic output')
-        self.add_argument('--version', action='version',
-                          version='%(prog)s {}'.format(bandoleers.__version__))
+        self.add_argument(
+            '--version', action='version',
+            version='%(prog)s {0}'.format(bandoleers.__version__))
 
     def parse_args(self, *args, **kwargs):
         result = super(ArgumentParser, self).parse_args(*args, **kwargs)

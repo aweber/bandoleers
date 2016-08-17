@@ -94,7 +94,7 @@ def prep_postgres(file):
     try:
         LOGGER.info('Processing %s', file)
         db = os.path.splitext(os.path.basename(file))[0]
-        uri = os.environ.get('PGSQL_{}'.format(db.upper()))
+        uri = os.environ.get('PGSQL_{0}'.format(db.upper()))
         if uri is not None:
             chop = len(db) + 1
             base = uri[:-chop]
@@ -104,8 +104,8 @@ def prep_postgres(file):
             uri = os.path.join(base, db)
             with queries.Session(os.path.join(base, 'postgres')) as session:
                 LOGGER.debug('Creating database')
-                session.query('DROP DATABASE IF EXISTS {};'.format(db))
-                session.query('CREATE DATABASE {};'.format(db))
+                session.query('DROP DATABASE IF EXISTS {0};'.format(db))
+                session.query('CREATE DATABASE {0};'.format(db))
 
         with queries.Session(uri) as session:
             with open(file) as fh:
@@ -122,7 +122,7 @@ def prep_rabbit(file):
         with open(file) as fh:
             config = json.load(fh)
             for action in config:
-                uri = 'http://{}/{}'.format(host, action['path'])
+                uri = 'http://{0}/{1}'.format(host, action['path'])
                 LOGGER.debug('%s', action)
                 r = requests.request(
                     url=uri, method=action['method'],
