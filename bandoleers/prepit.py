@@ -17,7 +17,6 @@ try:
 except ImportError:
     from urlparse import parse_qsl, urlsplit
 
-from cassandra.cluster import Cluster
 from redis import StrictRedis
 import consulate
 import json
@@ -45,33 +44,6 @@ def prep_redis(file_):
                     redis.execute_command(command, name, *values)
     except Exception:
         LOGGER.exception('Failed to execute redis commands.')
-        sys.exit(-1)
-
-
-def prep_cassandra(file):
-    try:
-        LOGGER.info('Processing %s', file)
-        uri = os.environ.get('CASSANDRA_URI', 'cassandra://localhost')
-        parts = urlsplit(uri)
-        _, _, ips = socket.gethostbyname_ex(parts.hostname)
-        config = dict(parse_qsl(parts.query))
-        config['contact_points'] = ips
-        config['port'] = parts.port or 9042
-        for key in ('protocol_version', 'executor_threads',
-                    'max_schema_agreement_wait', 'idle_heartbeat_interval',
-                    'schema_refresh_window', 'topology_event_refresh_window'):
-            if key in config:
-                config[key] = int(config[key])
-        cluster = Cluster(**config)
-        session = cluster.connect()
-        with open(file) as fh:
-            for schema_line in fh.read().split(';'):
-                if schema_line.strip():
-                    LOGGER.debug('%s', schema_line)
-                    session.execute(schema_line + ';')
-        session.shutdown()
-    except Exception:
-        LOGGER.exception('Failed to execute cassandra queries.')
         sys.exit(-1)
 
 
@@ -144,7 +116,6 @@ def run():
     opts = parser.parse_args()
 
     resources = {
-        'cassandra': prep_cassandra,
         'consul': prep_consul,
         'postgres': prep_postgres,
         'rabbitmq': prep_rabbit,

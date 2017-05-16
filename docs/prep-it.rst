@@ -33,14 +33,6 @@ each directory name that is supported and its expected content.
 
    Display the package version and exit with a failure status.
 
-cassandra
----------
-Text files containing queries that are executed using a
-:class:`cassandra.cluster.Cluster` instance.  Queries are separated by
-semi-colons and executed in the order that they appear in the file.  The
-Cassandra server is configured by setting the :envvar:`CASSANDRA_URI`
-environment variable.
-
 consul
 ------
 JSON files containing top-level object definitions (e.g., dictionaries)

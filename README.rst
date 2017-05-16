@@ -6,11 +6,11 @@ local data bootstrapping less painful.
 
 :prep-it:
     This simple utility iterates over data files in a sub-tree and loads
-    them into various backends such as Cassandra, RabbitMQ, and PostgreSQL.
+    them into various backends such as RabbitMQ, Consul, and PostgreSQL.
 
 :wait-for:
     This simple utility pings a URL periodically until it responds
-    successfully.  It supports HTTP, Cassandra, and Postgres URLs out of
+    successfully.  It supports HTTP and Postgres URLs out of
     the box.
 
 
