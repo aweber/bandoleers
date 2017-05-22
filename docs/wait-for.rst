@@ -18,9 +18,6 @@ successful response.
    +---------------------+----------------------------------------------+
    | ``http``, ``https`` | Fail for non-200 family status codes         |
    +---------------------+----------------------------------------------+
-   | ``cassandra``       | Fail unless connecting the `datastax`_       |
-   |                     | Cassandra client to the URL succeeds.        |
-   +---------------------+----------------------------------------------+
    | ``postgresql``      | Fail unless connecting `psycopg2`_ to the    |
    |                     | URL succeeds.                                |
    +---------------------+----------------------------------------------+

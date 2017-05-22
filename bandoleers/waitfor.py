@@ -15,7 +15,6 @@ except ImportError:
 
 warnings.simplefilter('ignore', UserWarning)
 
-from cassandra import cluster
 import psycopg2
 import requests.exceptions
 
@@ -30,24 +29,6 @@ def connect_to(url, timeout):
     if scheme in ('http', 'https'):
         response = requests.get(url, timeout=timeout)
         response.raise_for_status()
-
-    elif scheme == 'cassandra':
-        host, _, port = netloc.partition(':')
-        _, _, ip_addrs = socket.gethostbyname_ex(host)
-        options = dict(parse.parse_qsl(query))
-        options['contact_points'] = ip_addrs
-        options['port'] = int(port) or 9042
-        options['control_connection_timeout'] = timeout
-        for key in ('protocol_version', 'executor_threads',
-                    'max_schema_agreement_wait', 'idle_heartbeat_interval',
-                    'schema_refresh_window', 'topology_event_refresh_window'):
-            if key in options:
-                options[key] = int(options[key])
-
-        conn = cluster.Cluster(**options)
-        conn.connect()
-        asyncore.close_all()
-        asyncore.loop()
 
     elif scheme == 'postgresql':
         kwargs = {
@@ -114,7 +95,6 @@ def run():
                               'Default is to run forever'))
     parser.add_argument('URL')
     opts = parser.parse_args()
-    logging.getLogger('cassandra').setLevel(logging.CRITICAL)
 
     t0 = time.time()
     wait_forever = opts.timeout is None
