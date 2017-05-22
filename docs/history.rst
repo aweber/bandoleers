@@ -3,7 +3,7 @@
 Release History
 ===============
 
-`2.0.0`_ (2017-05-16)
+`2.0.0`_ (2017-05-22)
 ---------------------
 - Remove Cassandra support
 
@@ -54,7 +54,8 @@ Release History
 - Initial release of the PrepIt package
 - Import @briank's work on prepit.
 
-.. _Next Release: https://github.com/aweber/bandoleers/compare/1.1.1...HEAD
+.. _Next Release: https://github.com/aweber/bandoleers/compare/2.0.0...HEAD
+.. _2.0.0: https://github.com/aweber/bandoleers/compare/1.1....2.0.0
 .. _1.1.1: https://github.com/aweber/bandoleers/compare/1.1.0...1.1.1
 .. _1.1.0: https://github.com/aweber/bandoleers/compare/1.0.0...1.1.0
 .. _1.0.0: https://github.com/aweber/bandoleers/compare/0.3.5...1.0.0
