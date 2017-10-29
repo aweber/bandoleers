@@ -10,12 +10,13 @@ for more details.
 """
 import logging
 import os.path
+import re
 import socket
 import sys
 try:
-    from urllib.parse import parse_qsl, urlsplit
+    from urllib.parse import parse_qsl, urlsplit, urlunsplit
 except ImportError:
-    from urlparse import parse_qsl, urlsplit
+    from urlparse import parse_qsl, urlsplit, urlunsplit
 
 from redis import StrictRedis
 import consulate
@@ -105,6 +106,41 @@ def prep_rabbit(file):
         sys.exit(-1)
 
 
+def prep_http(file):
+    LOGGER.info('Processing %s', file)
+    var_pattern = re.compile(r'\$(?P<name>[_a-z0-9]+)',
+                             re.IGNORECASE)
+    with open(file) as fh:
+        input_requests = json.load(fh)
+        for request in input_requests:
+            try:
+                url = request['url']
+                matches = var_pattern.findall(url)
+                for var_name in matches:
+                    if var_name in os.environ:
+                        url = url.replace('${}'.format(var_name),
+                                          os.environ[var_name])
+                parts = urlsplit(url)
+                user, password = parts.username, parts.password
+                hostname, port = parts.hostname, parts.port
+                if port:
+                    netloc = '{}:{}'.format(hostname, port)
+                else:
+                    netloc = hostname
+
+                request['url'] = urlunsplit((
+                    parts.scheme, netloc, parts.path, parts.query,
+                    parts.fragment))
+                request.setdefault('method', 'GET')
+                request.setdefault('auth', (user, password))
+                LOGGER.debug('making HTTP request %r', request)
+                r = requests.request(**request)
+                r.raise_for_status()
+            except Exception:
+                LOGGER.exception('HTTP request %r failed.', request)
+                sys.exit(-1)
+
+
 def run():
     logging.basicConfig(
         level=logging.INFO,
@@ -117,6 +153,7 @@ def run():
 
     resources = {
         'consul': prep_consul,
+        'http': prep_http,
         'postgres': prep_postgres,
         'rabbitmq': prep_rabbit,
         'redis': prep_redis,

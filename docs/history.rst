@@ -3,6 +3,10 @@
 Release History
 ===============
 
+`Next Release`_
+---------------
+- Add raw HTTP support to ``prep-it``
+
 `2.0.0`_ (2017-05-22)
 ---------------------
 - Remove Cassandra support

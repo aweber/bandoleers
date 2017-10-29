@@ -29,4 +29,5 @@ intersphinx_mapping = {
     'rejected': ('http://rejected.readthedocs.org/en/latest/', None),
     'consulate': ('http://consulate.readthedocs.org/en/latest/', None),
     'datastax': ('http://datastax.github.io/python-driver', None),
+    'requests': ('http://requests.readthedocs.io/en/master/', None),
 }
