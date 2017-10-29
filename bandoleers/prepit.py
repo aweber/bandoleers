@@ -165,6 +165,8 @@ def run():
             path = '/'.join([opts.directory, resource])
             files = os.listdir(path)
             for data_file in files:
+                if data_file.startswith('.') or data_file.endswith('~'):
+                    continue
                 resources[resource]('/'.join([path, data_file]))
     LOGGER.info('Finished processing successfully.')
     sys.exit(0)

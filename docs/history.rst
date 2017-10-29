@@ -6,6 +6,8 @@ Release History
 `Next Release`_
 ---------------
 - Add raw HTTP support to ``prep-it``
+- Ignore data files that look like temporary files.  This specifcally
+  ignores files that start with a period and files that end with a tilde.
 
 `2.0.0`_ (2017-05-22)
 ---------------------
