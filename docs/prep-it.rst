@@ -40,6 +40,36 @@ that are loaded into a Consul key-value store using a :class:`consulate.Consul`
 instance.  The Consul endpoint is configured by setting the
 :envvar:`CONSUL_HOST` and :envvar:`CONSUL_PORT` environment variables.
 
+http
+----
+JSON files containing an array of objects, one per request.  Each object
+is simply a list of parameters passed into :func:`requests.request`.  The
+following properties are usually what you want:
+
+:url:
+   The targetted resource.  This may be modified as described below.
+
+:method:
+   The HTTP method to request.
+
+:params:
+   Optional dictionary of query parameters.
+
+:headers:
+   Optional dictionary of headers to send.
+
+:json:
+   Optional body that will be JSON encoded before being sent.
+
+The ``url`` value may contain environment variables in the host and/or
+port number values.  For example ``http://$CONSUL_HOST:$CONSUL_PORT/...``
+is rewritten to ``http://127.0.0.1:37832`` if the :envvar:`CONSUL_HOST`
+environment variable is set to ``127.0.0.1`` and the :envvar:`CONSUL_PORT`
+environment variable is set to ``37832``.
+
+The user name and password parameters are removed from the URL and placed
+into the ``auth`` keyword parameter if they are present in the URL.
+
 rabbitmq
 --------
 JSON files that contain RabbitMQ HTTP API commands to execute.  Each
