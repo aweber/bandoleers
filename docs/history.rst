@@ -3,8 +3,8 @@
 Release History
 ===============
 
-`Next Release`_
----------------
+`2.1.0`_ (2017-10-28)
+---------------------
 - Add raw HTTP support to ``prep-it``
 - Ignore data files that look like temporary files.  This specifcally
   ignores files that start with a period and files that end with a tilde.
@@ -60,7 +60,8 @@ Release History
 - Initial release of the PrepIt package
 - Import @briank's work on prepit.
 
-.. _Next Release: https://github.com/aweber/bandoleers/compare/2.0.0...HEAD
+.. _Next Release: https://github.com/aweber/bandoleers/compare/2.1.0...HEAD
+.. _2.1.0: https://github.com/aweber/bandoleers/compare/2.0.0...2.1.0
 .. _2.0.0: https://github.com/aweber/bandoleers/compare/1.1....2.0.0
 .. _1.1.1: https://github.com/aweber/bandoleers/compare/1.1.0...1.1.1
 .. _1.1.0: https://github.com/aweber/bandoleers/compare/1.0.0...1.1.0
