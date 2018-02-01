@@ -3,6 +3,10 @@
 Release History
 ===============
 
+`Next Release`_
+---------------
+- Upgrade to queries 2.0.x.
+
 `2.1.0`_ (2017-10-28)
 ---------------------
 - Add raw HTTP support to ``prep-it``
