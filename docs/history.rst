@@ -6,6 +6,7 @@ Release History
 `Next Release`_
 ---------------
 - Upgrade to queries 2.0.x.
+- Drop support for Python 2.6.
 
 `2.1.0`_ (2017-10-28)
 ---------------------
