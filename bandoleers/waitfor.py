@@ -2,7 +2,6 @@
 Wait for a URL to become available.
 
 """
-import asyncore
 import logging
 import socket
 import sys
