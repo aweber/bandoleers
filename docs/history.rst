@@ -3,8 +3,8 @@
 Release History
 ===============
 
-`Next Release`_
----------------
+`3.0.0`_ (2018-02-01)
+---------------------
 - Upgrade to queries 2.0.x.
 - Drop support for Python 2.6.
 
@@ -65,7 +65,8 @@ Release History
 - Initial release of the PrepIt package
 - Import @briank's work on prepit.
 
-.. _Next Release: https://github.com/aweber/bandoleers/compare/2.1.0...HEAD
+.. _Next Release: https://github.com/aweber/bandoleers/compare/3.0.0...HEAD
+.. _3.0.0: https://github.com/aweber/bandoleers/compare/2.1.0...3.0.0
 .. _2.1.0: https://github.com/aweber/bandoleers/compare/2.0.0...2.1.0
 .. _2.0.0: https://github.com/aweber/bandoleers/compare/1.1....2.0.0
 .. _1.1.1: https://github.com/aweber/bandoleers/compare/1.1.0...1.1.1
