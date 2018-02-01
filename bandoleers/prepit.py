@@ -11,12 +11,11 @@ for more details.
 import logging
 import os.path
 import re
-import socket
 import sys
 try:
-    from urllib.parse import parse_qsl, urlsplit, urlunsplit
+    from urllib.parse import urlsplit, urlunsplit
 except ImportError:
-    from urlparse import parse_qsl, urlsplit, urlunsplit
+    from urlparse import urlsplit, urlunsplit
 
 from redis import StrictRedis
 import consulate
