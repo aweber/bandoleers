@@ -3,6 +3,10 @@
 Release History
 ===============
 
+`3.1.0`_ (2019-03-27)
+---------------------
+- Expand supported redis package versions
+
 `3.0.0`_ (2018-02-01)
 ---------------------
 - Upgrade to queries 2.0.x.
@@ -65,7 +69,8 @@ Release History
 - Initial release of the PrepIt package
 - Import @briank's work on prepit.
 
-.. _Next Release: https://github.com/aweber/bandoleers/compare/3.0.0...HEAD
+.. _Next Release: https://github.com/aweber/bandoleers/compare/3.1.0...HEAD
+.. _3.1.0: https://github.com/aweber/bandoleers/compare/3.0.0...3.1.0
 .. _3.0.0: https://github.com/aweber/bandoleers/compare/2.1.0...3.0.0
 .. _2.1.0: https://github.com/aweber/bandoleers/compare/2.0.0...2.1.0
 .. _2.0.0: https://github.com/aweber/bandoleers/compare/1.1....2.0.0
