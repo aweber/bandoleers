@@ -1,5 +1,5 @@
 consulate>=0.5.1,<2
-psycopg2>=2.6,<3
+psycopg2-binary>=2.7.3.2,<2.8
 queries>=1.7.3,<2.1
 requests>=2.5.1,<3
 redis>=2,<4
