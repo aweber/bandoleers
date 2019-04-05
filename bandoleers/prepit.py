@@ -20,7 +20,7 @@ except ImportError:
 from redis import StrictRedis
 import consulate
 import json
-import queries
+import psycopg2
 import requests
 
 from bandoleers import args
@@ -74,14 +74,19 @@ def prep_postgres(file):
             base = os.environ.get('PGSQL',
                                   'postgresql://postgres@localhost:5432')
             uri = os.path.join(base, db)
-            with queries.Session(os.path.join(base, 'postgres')) as session:
+            conn = psycopg2.connect(os.path.join(base, 'postgres'))
+            conn.autocommit = True
+            with conn.cursor() as cursor:
                 LOGGER.debug('Creating database')
-                session.query('DROP DATABASE IF EXISTS {0};'.format(db))
-                session.query('CREATE DATABASE {0};'.format(db))
+                cursor.execute('DROP DATABASE IF EXISTS {}'.format(db))
+                cursor.execute('CREATE DATABASE {}'.format(db))
 
-        with queries.Session(uri) as session:
-            with open(file) as fh:
-                session.query(fh.read())
+        with open(file) as fh:
+            sql = fh.read()
+        conn = psycopg2.connect(uri)
+        conn.autocommit = True
+        with conn.cursor() as cursor:
+            cursor.execute(sql)
     except Exception:
         LOGGER.exception('Failed to execute pgsql queries.')
         sys.exit(-1)
