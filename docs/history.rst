@@ -3,6 +3,10 @@
 Release History
 ===============
 
+`3.2.0`_ (2019-04-05)
+---------------------
+- Use ``psycopg2`` instead of ``queries``
+
 `3.1.0`_ (2019-03-27)
 ---------------------
 - Expand supported redis package versions
@@ -69,7 +73,8 @@ Release History
 - Initial release of the PrepIt package
 - Import @briank's work on prepit.
 
-.. _Next Release: https://github.com/aweber/bandoleers/compare/3.1.0...HEAD
+.. _Next Release: https://github.com/aweber/bandoleers/compare/3.2.0...HEAD
+.. _3.2.0: https://github.com/aweber/bandoleers/compare/3.1.0...3.2.0
 .. _3.1.0: https://github.com/aweber/bandoleers/compare/3.0.0...3.1.0
 .. _3.0.0: https://github.com/aweber/bandoleers/compare/2.1.0...3.0.0
 .. _2.1.0: https://github.com/aweber/bandoleers/compare/2.0.0...2.1.0
