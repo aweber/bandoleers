@@ -6,6 +6,7 @@ Release History
 `3.3.0`_ (2021-09-02)
 ---------------------
 - Replace consulate usage with requests
+- Add classifiers for 3.8 & 3.9.
 
 `3.2.0`_ (2019-04-05)
 ---------------------
