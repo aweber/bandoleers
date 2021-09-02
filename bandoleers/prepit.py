@@ -41,6 +41,7 @@ def prep_redis(file_):
             for command, entries in config.items():
                 for name, values in entries.items():
                     redis.execute_command(command, name, *values)
+        redis.connection_pool.disconnect()
     except Exception:
         LOGGER.exception('Failed to execute redis commands.')
         sys.exit(-1)
@@ -104,13 +105,14 @@ def prep_rabbit(file):
         host = os.environ.get('RABBITMQ', 'localhost')
         with open(file) as fh:
             config = json.load(fh)
-            for action in config:
-                uri = 'http://{0}/{1}'.format(host, action['path'])
-                LOGGER.debug('%s', action)
-                r = requests.request(
-                    url=uri, method=action['method'],
-                    auth=('guest', 'guest'), json=action['body'])
-                r.raise_for_status()
+            with requests.Session() as session:
+                for action in config:
+                    uri = 'http://{0}/{1}'.format(host, action['path'])
+                    LOGGER.debug('%s', action)
+                    r = session.request(url=uri, method=action['method'],
+                                        auth=('guest', 'guest'),
+                                        json=action['body'])
+                    r.raise_for_status()
     except Exception:
         LOGGER.exception('Failed to configure rabbit.')
         sys.exit(-1)
@@ -122,33 +124,34 @@ def prep_http(file):
                              re.IGNORECASE)
     with open(file) as fh:
         input_requests = json.load(fh)
-        for request in input_requests:
-            try:
-                url = request['url']
-                matches = var_pattern.findall(url)
-                for var_name in matches:
-                    if var_name in os.environ:
-                        url = url.replace('${}'.format(var_name),
-                                          os.environ[var_name])
-                parts = urlsplit(url)
-                user, password = parts.username, parts.password
-                hostname, port = parts.hostname, parts.port
-                if port:
-                    netloc = '{}:{}'.format(hostname, port)
-                else:
-                    netloc = hostname
+        with requests.Session() as session:
+            for request in input_requests:
+                try:
+                    url = request['url']
+                    matches = var_pattern.findall(url)
+                    for var_name in matches:
+                        if var_name in os.environ:
+                            url = url.replace('${}'.format(var_name),
+                                              os.environ[var_name])
+                    parts = urlsplit(url)
+                    user, password = parts.username, parts.password
+                    hostname, port = parts.hostname, parts.port
+                    if port:
+                        netloc = '{}:{}'.format(hostname, port)
+                    else:
+                        netloc = hostname
 
-                request['url'] = urlunsplit((
-                    parts.scheme, netloc, parts.path, parts.query,
-                    parts.fragment))
-                request.setdefault('method', 'GET')
-                request.setdefault('auth', (user, password))
-                LOGGER.debug('making HTTP request %r', request)
-                r = requests.request(**request)
-                r.raise_for_status()
-            except Exception:
-                LOGGER.exception('HTTP request %r failed.', request)
-                sys.exit(-1)
+                    request['url'] = urlunsplit((
+                        parts.scheme, netloc, parts.path, parts.query,
+                        parts.fragment))
+                    request.setdefault('method', 'GET')
+                    request.setdefault('auth', (user, password))
+                    LOGGER.debug('making HTTP request %r', request)
+                    r = session.request(**request)
+                    r.raise_for_status()
+                except Exception:
+                    LOGGER.exception('HTTP request %r failed.', request)
+                    sys.exit(-1)
 
 
 def run():
