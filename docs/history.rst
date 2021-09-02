@@ -3,6 +3,11 @@
 Release History
 ===============
 
+`3.3.0`_ (2021-09-02)
+---------------------
+- Replace consulate usage with requests
+- Add classifiers for 3.8 & 3.9.
+
 `3.2.0`_ (2019-04-05)
 ---------------------
 - Use ``psycopg2`` instead of ``queries``
@@ -73,7 +78,8 @@ Release History
 - Initial release of the PrepIt package
 - Import @briank's work on prepit.
 
-.. _Next Release: https://github.com/aweber/bandoleers/compare/3.2.0...HEAD
+.. _Next Release: https://github.com/aweber/bandoleers/compare/3.3.0...HEAD
+.. _3.3.0: https://github.com/aweber/bandoleers/compare/3.2.0...3.3.0
 .. _3.2.0: https://github.com/aweber/bandoleers/compare/3.1.0...3.2.0
 .. _3.1.0: https://github.com/aweber/bandoleers/compare/3.0.0...3.1.0
 .. _3.0.0: https://github.com/aweber/bandoleers/compare/2.1.0...3.0.0
