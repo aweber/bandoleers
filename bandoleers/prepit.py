@@ -13,12 +13,11 @@ import os.path
 import re
 import sys
 try:
-    from urllib.parse import urlsplit, urlunsplit
+    from urllib.parse import urljoin, urlsplit, urlunsplit
 except ImportError:
-    from urlparse import urlsplit, urlunsplit
+    from urlparse import urljoin, urlsplit, urlunsplit
 
 from redis import StrictRedis
-import consulate
 import json
 import psycopg2
 import requests
@@ -50,13 +49,20 @@ def prep_redis(file_):
 def prep_consul(file):
     try:
         LOGGER.info('Processing %s', file)
-        consul = consulate.Consul(os.environ.get('CONSUL_HOST', 'localhost'),
-                                  int(os.environ.get('CONSUL_PORT', '8500')))
+        kv_root = urlunsplit((
+            'http',
+            '{}:{}'.format(os.environ.get('CONSUL_HOST', 'localhost'),
+                           os.environ.get('CONSUL_PORT', '8500')),
+            '/v1/kv/', None, None))
+
         with open(file) as fh:
             config = json.load(fh)
             LOGGER.debug('%r', config)
-            for k, v in config.items():
-                consul.kv[k] = v
+            with requests.Session() as session:
+                for k, v in config.items():
+                    rsp = session.put(urljoin(kv_root, k.lstrip('/')),
+                                      data=str(v).encode())
+                    rsp.raise_for_status()
     except Exception:
         LOGGER.exception('Failed to load consul data.')
         sys.exit(-1)
