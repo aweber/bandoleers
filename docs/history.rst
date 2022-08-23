@@ -6,9 +6,10 @@ Release History
 `Next Release`_
 ---------------
 
-`3.3.1`_ (2022-08-22)
+`3.3.1`_ (2022-08-23)
 ---------------------
 - Loosen redis pin to allow redis 4
+- Switch to GitHub Actions for CI
 
 `3.3.0`_ (2021-09-02)
 ---------------------
