@@ -87,7 +87,7 @@ Release History
 - Import @briank's work on prepit.
 
 .. _Next Release: https://github.com/aweber/bandoleers/compare/3.3.1...HEAD
-.. _3.3.0: https://github.com/aweber/bandoleers/compare/3.3.0...3.3.1
+.. _3.3.1: https://github.com/aweber/bandoleers/compare/3.3.0...3.3.1
 .. _3.3.0: https://github.com/aweber/bandoleers/compare/3.2.0...3.3.0
 .. _3.2.0: https://github.com/aweber/bandoleers/compare/3.1.0...3.2.0
 .. _3.1.0: https://github.com/aweber/bandoleers/compare/3.0.0...3.1.0
