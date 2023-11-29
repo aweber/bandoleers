@@ -6,6 +6,10 @@ Release History
 `Next Release`_
 ---------------
 
+`3.3.2`_ (2023-11-29)
+---------------------
+- Loosen redis pin to allow redis 5
+
 `3.3.1`_ (2022-08-23)
 ---------------------
 - Loosen redis pin to allow redis 4
@@ -86,7 +90,8 @@ Release History
 - Initial release of the PrepIt package
 - Import @briank's work on prepit.
 
-.. _Next Release: https://github.com/aweber/bandoleers/compare/3.3.1...HEAD
+.. _Next Release: https://github.com/aweber/bandoleers/compare/3.3.2...HEAD
+.. _3.3.1: https://github.com/aweber/bandoleers/compare/3.3.1...3.3.2
 .. _3.3.1: https://github.com/aweber/bandoleers/compare/3.3.0...3.3.1
 .. _3.3.0: https://github.com/aweber/bandoleers/compare/3.2.0...3.3.0
 .. _3.2.0: https://github.com/aweber/bandoleers/compare/3.1.0...3.2.0
