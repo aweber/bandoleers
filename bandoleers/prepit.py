@@ -19,7 +19,7 @@ except ImportError:
 
 from redis import StrictRedis
 import json
-import psycopg2
+import psycopg
 import requests
 
 from bandoleers import args
@@ -81,8 +81,8 @@ def prep_postgres(file):
             base = os.environ.get('PGSQL',
                                   'postgresql://postgres@localhost:5432')
             uri = os.path.join(base, db)
-            conn = psycopg2.connect(os.path.join(base, 'postgres'))
-            conn.autocommit = True
+            conn = psycopg.connect(os.path.join(base, 'postgres'),
+                                   autocommit=True)
             with conn.cursor() as cursor:
                 LOGGER.debug('Creating database')
                 cursor.execute('DROP DATABASE IF EXISTS {}'.format(db))
@@ -90,8 +90,7 @@ def prep_postgres(file):
 
         with open(file) as fh:
             sql = fh.read()
-        conn = psycopg2.connect(uri)
-        conn.autocommit = True
+        conn = psycopg.connect(uri, autocommit=True)
         with conn.cursor() as cursor:
             cursor.execute(sql)
     except Exception:
