@@ -14,7 +14,7 @@ except ImportError:
 
 warnings.simplefilter('ignore', UserWarning)
 
-import psycopg2
+import psycopg
 import requests.exceptions
 
 from bandoleers import args
@@ -35,7 +35,7 @@ def connect_to(url, timeout):
             'password': None,
             'host': 'localhost',
             'port': 5432,
-            'database': 'postgres',
+            'dbname': 'postgres',
         }
         user_n_pass, sep, host_n_port = netloc.partition('@')
         if sep:
@@ -52,10 +52,10 @@ def connect_to(url, timeout):
             kwargs['port'] = int(port)
 
         if path:
-            kwargs['database'] = path[1:]
+            kwargs['dbname'] = path[1:]
 
         LOGGER.debug('connecting to postgres with %r', kwargs)
-        conn = psycopg2.connect(**kwargs)
+        conn = psycopg.connect(**kwargs)
         conn.close()
 
     elif scheme == 'tcp':
