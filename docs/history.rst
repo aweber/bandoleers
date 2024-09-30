@@ -6,6 +6,14 @@ Release History
 `Next Release`_
 ---------------
 
+`4.0.1`_ (2024-09-30)
+---------------------
+- Loosen psycopg3 pin to allow for all major versions of psycopg3
+
+`4.0.0`_ (2024-09-27)
+---------------------
+- Replace ``pyscopg2`` with ``psycopg3``
+
 `3.3.2`_ (2023-11-29)
 ---------------------
 - Loosen redis pin to allow redis 5
